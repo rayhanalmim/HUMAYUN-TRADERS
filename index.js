@@ -17,22 +17,91 @@ mongoose.connect(uri, {
 const db = mongoose.connection;
 
 db.on('error', (err) => {
-  console.error(`Error connecting to MongoDB: ${err}`);
+    console.error(`Error connecting to MongoDB: ${err}`);
 });
 
 db.once('open', () => {
-  console.log('Connected to MongoDB');
+    console.log('Connected to MongoDB');
 });
 
 const dealerCollection = mongoose.model('dealerCollection', new mongoose.Schema({}, { strict: false }));
+
+const productSchema = {
+    "email": "user@example.com",
+    "photoURL": "https://example.com/profile.jpg",
+    "displayName": "John Doe",
+    "userRole": "customer",
+    "totalBuy": 5000,
+    "due": 200,
+    "address": "123 Main Street, Cityville",
+    "nidCardNumber": "1234567890123456",
+    "phoneNumber": "+1 123-456-7890",
+    "reference": "Friend's name",
+    "code": 12345678,
+    "agentDealingInfo": {
+        "perDeal": 100,
+        "monthly": 800,
+        "yearly": 9600
+    },
+    "productBuyInfo": [
+        {
+            "productName": "Product A",
+            "quantity": 2,
+            "date": "2024-01-13",
+            "productDetails": "Details about Product A",
+            "productPrice": 50,
+            "paymentMethod": "Credit Card"
+        },
+        {
+            "productName": "Product B",
+            "quantity": 1,
+            "date": "2024-01-14",
+            "productDetails": "Details about Product B",
+            "productPrice": 30,
+            "paymentMethod": "Cash"
+        }
+    ]
+}
+
+
+// -------------------------delarCollection------------------------------
+
+app.get('/getDeader', async (req, res) => {
+    const dealerId = req.query.dealerId;
+    const dealer = await dealerCollection.findById(dealerId);
+    res.send(dealer);
+})
+
+app.post('/createDealer', async (req, res) => {
+    const dealer = req.body;
+    const create = await dealerCollection.create(dealer);
+    res.send(create)
+})
+
+app.post('/updateDealer', async (req, res) => {
+    const dealerId = req.query.dealerId;
+    const {email, photoURL, displayName, userRole, totalBuy, due, address, nidCardNumber, phoneNumber, reference, code } = req.body;
+
+    const update = await dealerCollection.updateOne(
+        { _id: new Object(id) },
+        { $set: { email: email, photoURL: photoURL, displayName: displayName, userRole: userRole, totalBuy: totalBuy, due: due, address: address, nidCardNumber: nidCardNumber, phoneNumber: phoneNumber, reference: reference, code: code } },
+    );
+    res.send(update)
+})
+
+app.delete('/deleteDealer', async (req, res) => {
+    const id = req.query.dealerId;
+    const result = await surveyCollection.deleteOne({ _id: new Object(id) });
+    res.send(result)
+})
 
 
 // --------------------------------------localApi-------------------------------------------
 
 app.get('/', (req, res) => {
-  res.send('Humayur traders server running');
+    res.send('Humayur traders server running');
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port}`);
 });
