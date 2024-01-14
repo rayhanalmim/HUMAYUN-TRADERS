@@ -75,7 +75,7 @@ app.get('/getUser', async (req, res) => {
 app.post('/createUser', async (req, res) => {
     const user = req.body;
     const create = await userCollection.create(user);
-    res.send(create)
+    res.send(create);
 })
 
 app.post('/updateUser', async (req, res) => {
@@ -86,13 +86,13 @@ app.post('/updateUser', async (req, res) => {
         { _id: new Object(userId) },
         { $set: { email: email, photoURL: photoURL, displayName: displayName, userRole: userRole, totalBuy: totalBuy, due: due, address: address, nidCardNumber: nidCardNumber, phoneNumber: phoneNumber, reference: reference, code: code } },
     );
-    res.send(update)
+    res.send(update);
 })
 
 app.delete('/deleteUser', async (req, res) => {
     const id = req.query.userId;
     const result = await userCollection.deleteOne({ _id: new Object(id) });
-    res.send(result)
+    res.send(result);
 })
 
 
