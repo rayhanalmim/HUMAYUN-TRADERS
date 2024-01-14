@@ -73,24 +73,24 @@ app.get('/getUser', async (req, res) => {
 })
 
 app.post('/createUser', async (req, res) => {
-    const dealer = req.body;
-    const create = await userCollection.create(dealer);
+    const user = req.body;
+    const create = await userCollection.create(user);
     res.send(create)
 })
 
 app.post('/updateUser', async (req, res) => {
-    const dealerId = req.query.dealerId;
+    const userId = req.query.userId;
     const {email, photoURL, displayName, userRole, totalBuy, due, address, nidCardNumber, phoneNumber, reference, code } = req.body;
 
     const update = await userCollection.updateOne(
-        { _id: new Object(id) },
+        { _id: new Object(userId) },
         { $set: { email: email, photoURL: photoURL, displayName: displayName, userRole: userRole, totalBuy: totalBuy, due: due, address: address, nidCardNumber: nidCardNumber, phoneNumber: phoneNumber, reference: reference, code: code } },
     );
     res.send(update)
 })
 
 app.delete('/deleteUser', async (req, res) => {
-    const id = req.query.dealerId;
+    const id = req.query.userId;
     const result = await userCollection.deleteOne({ _id: new Object(id) });
     res.send(result)
 })
