@@ -66,19 +66,19 @@ const productSchema = {
 
 // -------------------------delarCollection------------------------------
 
-app.get('/getDeader', async (req, res) => {
+app.get('/getUser', async (req, res) => {
     const dealerId = req.query.dealerId;
     const dealer = await userCollection.findById(dealerId);
     res.send(dealer);
 })
 
-app.post('/createDealer', async (req, res) => {
+app.post('/createUser', async (req, res) => {
     const dealer = req.body;
     const create = await userCollection.create(dealer);
     res.send(create)
 })
 
-app.post('/updateDealer', async (req, res) => {
+app.post('/updateUser', async (req, res) => {
     const dealerId = req.query.dealerId;
     const {email, photoURL, displayName, userRole, totalBuy, due, address, nidCardNumber, phoneNumber, reference, code } = req.body;
 
@@ -89,7 +89,7 @@ app.post('/updateDealer', async (req, res) => {
     res.send(update)
 })
 
-app.delete('/deleteDealer', async (req, res) => {
+app.delete('/deleteUser', async (req, res) => {
     const id = req.query.dealerId;
     const result = await userCollection.deleteOne({ _id: new Object(id) });
     res.send(result)
