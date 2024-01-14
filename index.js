@@ -24,7 +24,7 @@ db.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
-const dealerCollection = mongoose.model('dealerCollection', new mongoose.Schema({}, { strict: false }));
+const userCollection = mongoose.model('userCollection', new mongoose.Schema({}, { strict: false }));
 
 const productSchema = {
     "email": "user@example.com",
@@ -68,13 +68,13 @@ const productSchema = {
 
 app.get('/getDeader', async (req, res) => {
     const dealerId = req.query.dealerId;
-    const dealer = await dealerCollection.findById(dealerId);
+    const dealer = await userCollection.findById(dealerId);
     res.send(dealer);
 })
 
 app.post('/createDealer', async (req, res) => {
     const dealer = req.body;
-    const create = await dealerCollection.create(dealer);
+    const create = await userCollection.create(dealer);
     res.send(create)
 })
 
@@ -82,7 +82,7 @@ app.post('/updateDealer', async (req, res) => {
     const dealerId = req.query.dealerId;
     const {email, photoURL, displayName, userRole, totalBuy, due, address, nidCardNumber, phoneNumber, reference, code } = req.body;
 
-    const update = await dealerCollection.updateOne(
+    const update = await userCollection.updateOne(
         { _id: new Object(id) },
         { $set: { email: email, photoURL: photoURL, displayName: displayName, userRole: userRole, totalBuy: totalBuy, due: due, address: address, nidCardNumber: nidCardNumber, phoneNumber: phoneNumber, reference: reference, code: code } },
     );
@@ -91,7 +91,7 @@ app.post('/updateDealer', async (req, res) => {
 
 app.delete('/deleteDealer', async (req, res) => {
     const id = req.query.dealerId;
-    const result = await surveyCollection.deleteOne({ _id: new Object(id) });
+    const result = await userCollection.deleteOne({ _id: new Object(id) });
     res.send(result)
 })
 
