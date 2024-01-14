@@ -67,9 +67,9 @@ const productSchema = {
 // -------------------------delarCollection------------------------------
 
 app.get('/getUser', async (req, res) => {
-    const dealerId = req.query.dealerId;
-    const dealer = await userCollection.findById(dealerId);
-    res.send(dealer);
+    const userId = req.query.userId;
+    const user = await userCollection.findById(userId);
+    res.send(user);
 })
 
 app.post('/createUser', async (req, res) => {
